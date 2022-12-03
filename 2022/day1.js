@@ -1,6 +1,7 @@
 f = "day1/input.txt";
 const fs = require("fs");
 const input = fs.readFileSync(`./inputs/${f}`, "utf-8").trim().split("\n\n");
+let start = performance.now();
 
 // Part 1
 const maxW = (input) => {
@@ -23,4 +24,7 @@ const top3 = (input) => {
     .slice(-3)
     .reduce((acc, v) => acc + v);
 };
+
 console.log(top3(input));
+let end = performance.now();
+console.log((end - start).toFixed(2));
