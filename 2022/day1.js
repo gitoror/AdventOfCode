@@ -11,7 +11,6 @@ const maxW = (input) => {
   });
   return weights.sort().at(-1);
 };
-console.log(maxW(input));
 
 // Part 2
 const top3 = (input) => {
@@ -24,7 +23,10 @@ const top3 = (input) => {
     .slice(-3)
     .reduce((acc, v) => acc + v);
 };
-
-console.log(top3(input));
+P1 = maxW(input);
+P2 = top3(input);
 let end = performance.now();
 console.log((end - start).toFixed(2));
+
+console.log(P1);
+console.log(P2);

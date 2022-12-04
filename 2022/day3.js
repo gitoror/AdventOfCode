@@ -25,8 +25,6 @@ const prioritySharedItems = (input) => {
   }, 0);
 };
 
-console.log(prioritySharedItems(input));
-
 // Part 2
 const priorityGroups = (input) => {
   count = 0;
@@ -48,6 +46,10 @@ const priorityGroups = (input) => {
   return count;
 };
 
-console.log(priorityGroups(input));
+Part1 = prioritySharedItems(input);
+Part2 = priorityGroups(input);
 let end = performance.now();
-console.log((end - start).toFixed(2));
+console.log("Execution time :", (end - start).toFixed(2), "ms");
+
+console.log("Part 1 :", Part1); //7691
+console.log("Part 2 :", Part2); //2508

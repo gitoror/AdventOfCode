@@ -23,8 +23,6 @@ const countPoints = (input) => {
   return victoryPoints + choicePoints;
 };
 
-console.log(countPoints(input));
-
 // Part 2
 const countPoints2 = (input) => {
   victoryPoints = 0;
@@ -47,6 +45,10 @@ const countPoints2 = (input) => {
   });
   return victoryPoints + choicePoints;
 };
-console.log(countPoints2(input));
+P1 = countPoints(input);
+P2 = countPoints2(input);
 let end = performance.now();
 console.log((end - start).toFixed(2));
+
+console.log(P1);
+console.log(P2);
