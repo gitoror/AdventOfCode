@@ -1,32 +1,8 @@
-f = "day5/input.txt";
 const fs = require("fs");
-const input = fs.readFileSync(`./inputs/${f}`, "utf-8").split("\n\n");
+const input = fs.readFileSync(`./inputs/day5/input.txt`, "utf-8").split("\n\n");
 let start = performance.now();
 
 // Part 1
-const arrangeStacks = (input) => {
-  stacks = input[0].split("\n");
-  instructions = input[1].split("\n");
-  stackArray = buildStackArray(stacks);
-  instructions.forEach((inst) => {
-    inst = inst.split(" ");
-    qt = Number(inst[1]);
-    from = Number(inst[3]) - 1;
-    to = Number(inst[5]) - 1;
-    for (k = 0; k < qt; k++) {
-      el = stackArray[from].shift();
-      stackArray[to].unshift(el);
-    }
-  });
-  sol = "";
-  stackArray.forEach((l) => {
-    sol += l[0];
-  });
-  return sol;
-};
-
-const move = (inst, { stackArray }) => {};
-
 const buildStackArray = (stacks) => {
   stackArray = [];
   nbStacks = Number(stacks.at(-1).at(-2));
@@ -44,9 +20,8 @@ const buildStackArray = (stacks) => {
   });
   return stackArray;
 };
-Part1 = arrangeStacks(input);
-// Part 2
-const arrangeStacks2 = (input) => {
+
+const arrangeStacks = (input, move) => {
   stacks = input[0].split("\n");
   instructions = input[1].split("\n");
   stackArray = buildStackArray(stacks);
@@ -55,20 +30,32 @@ const arrangeStacks2 = (input) => {
     qt = Number(inst[1]);
     from = Number(inst[3]) - 1;
     to = Number(inst[5]) - 1;
-    el = stackArray[from].slice(0, qt);
-    stackArray[from] = stackArray[from].slice(qt);
-    stackArray[to].unshift(...el);
+    move(qt, from, to, stackArray);
   });
-
-  sol = "";
-  stackArray.forEach((l) => {
-    sol += l[0];
-  });
-  return sol;
+  return stackArray.reduce((acc, stack) => {
+    return acc + stack[0];
+  }, "");
 };
 
-Part2 = arrangeStacks2(input);
+const move1 = (qt, from, to, stackArray) => {
+  for (k = 0; k < qt; k++) {
+    letter = stackArray[from].shift();
+    stackArray[to].unshift(letter);
+  }
+};
+
+Part1 = arrangeStacks(input, move1);
+
+// Part 2
+const move2 = (qt, from, to, stackArray) => {
+  letter = stackArray[from].splice(0, qt);
+  stackArray[to].unshift(...letter);
+};
+
+Part2 = arrangeStacks(input, move2);
+
 let end = performance.now();
 console.log("Execution time :", (end - start).toFixed(2), "ms");
+
 console.log("Part 1 :", Part1);
 console.log("Part 2 :", Part2);
