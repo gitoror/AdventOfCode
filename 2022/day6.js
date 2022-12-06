@@ -22,10 +22,6 @@ const part1 = (input) => {
   return -1;
 };
 
-Part1 = part1(input);
-
-console.log("Part 1 :", Part1);
-
 // Part 2
 
 const part2 = (input) => {
@@ -51,9 +47,11 @@ const compare = (i, j, input) => {
   return input.at(i) == input.at(j);
 };
 
+Part1 = part1(input);
 Part2 = part2(input);
 
 let end = performance.now();
 console.log("Execution time :", (end - start).toFixed(2), "ms");
 
+console.log("Part 1 :", Part1);
 console.log("Part 2 :", Part2);
