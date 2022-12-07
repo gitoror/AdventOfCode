@@ -1,8 +1,6 @@
 const fs = require("fs");
-const input = fs
-  .readFileSync(`./inputs/day7/input.txt`, "utf-8")
-  .trim()
-  .split("\n");
+const f = "day7/input.txt";
+const input = fs.readFileSync(`./inputs/${f}`, "utf-8").trim().split("\n");
 let start = performance.now();
 
 // Part 1
@@ -18,8 +16,6 @@ const buildFileTree = (input) => {
         } else {
           path.push(line[2]);
         }
-      }
-      if (line[1] == "ls") {
       }
     } else {
       treeToPush = tree;
@@ -59,8 +55,7 @@ function sizeDir(tree, possibleDir = [], minDelete = 0) {
   });
   return [s, tot];
 }
-26391313;
-11212301;
+
 // Part 2
 function findDeleteDir(tree) {
   possibleDir = [];
