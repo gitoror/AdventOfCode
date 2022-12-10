@@ -35,3 +35,7 @@ I tried to make a clever efficient solution but I had problems. The best is alwa
 ## Day 9
 
 Difficult problem to understand, part 1 was ok, but for part 2 I needed a long time to understand how the knots of the rope were moving !!! It was not compatible with my approach for part 1 where I made 2 moves to move diagonnaly, and that have been a disaster ... Also, it's important to put `else if`and not just `if` because with recursivity the programm can change the coordiantes of a knot that has already been treated
+
+## Day 10
+
+Cool and relaxing problem, the more diffcult was to read the letters on the CRT ... and I'm serious about that :`)
