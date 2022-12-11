@@ -38,4 +38,8 @@ Difficult problem to understand, part 1 was ok, but for part 2 I needed a long t
 
 ## Day 10
 
-Cool and relaxing problem, the more diffcult was to read the letters on the CRT ... and I'm serious about that :`)
+Cool and relaxing problem, the more diffcult was to read the letters on the CRT ... and I'm serious about that :`(
+
+## Day 11
+
+Part 1 okay but struggle to find the idea that completely unlocked part 2 in a blink of an eye
