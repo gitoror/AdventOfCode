@@ -43,3 +43,7 @@ Cool and relaxing problem, the more diffcult was to read the letters on the CRT 
 ## Day 11
 
 Part 1 okay but struggle to find the idea that completely unlocked part 2 in a blink of an eye
+
+## Day 12
+
+Hopefully I heard my classmates talking about Dijkstra algorithm to find the shortest path of in a graph. Otherwise I would have tried to make recursivity to explore paths for each neighbor. I struggle to really have an intuition of what is doing Dijkstra algorithm..
