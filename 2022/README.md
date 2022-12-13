@@ -47,3 +47,7 @@ Part 1 okay but struggle to find the idea that completely unlocked part 2 in a b
 ## Day 12
 
 Hopefully I heard my classmates talking about Dijkstra algorithm to find the shortest path of in a graph. Otherwise I would have tried to make recursivity to explore paths for each neighbor. I struggle to really have an intuition of what is doing Dijkstra algorithm..
+
+## Day 13
+
+I have exploited JavaScript JSON parsing to parse the array string input. I had some logic issues fo `if` conditions and for the recursive calls in the main `isOrdered` function but I manage to debug it. I have exploited the `sort` function in JS with a callBack function corresponding to the function made in part 1.
