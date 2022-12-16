@@ -51,3 +51,11 @@ Hopefully I heard my classmates talking about Dijkstra algorithm to find the sho
 ## Day 13
 
 I have exploited JavaScript JSON parsing to parse the array string input. I had some logic issues fo `if` conditions and for the recursive calls in the main `isOrdered` function but I manage to debug it. I have exploited the `sort` function in JS with a callBack function corresponding to the function made in part 1.
+
+## Day 14
+
+I used a matrix but it would have been more efficient to use maps.
+
+## Day 15
+
+Very hard Part 2 because of time execution. I had sevaral ideas to reduce the complexity but it is still over 1 sec ... I think the order of the sensors in the input is important because when I order my sensors by x rising the time is exceeding 1 min ! I have 2 algos for part 2, The one that is commented have a time of 15 sec and the presented one 2 sec. In the commented one I stayed one the same idea as part 1 with intervals. On the other version, which is more efficient, I focus on the possible zone of 1 box width around sensors where a beacon can be. And because of the unicity of the possible undetected beacon, the answer is the point of these zones that can't be detected by any sensor.
