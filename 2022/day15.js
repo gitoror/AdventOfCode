@@ -2,17 +2,20 @@ const fs = require("fs");
 const fEx = "day15/ex.txt";
 const inputEx = fs.readFileSync(`./inputs/${fEx}`, "utf-8").trim().split("\n");
 
-const fEx2 = "day15/ex2.txt";
-const inputEx2 = fs
-  .readFileSync(`./inputs/${fEx2}`, "utf-8")
-  .trim()
-  .split("\n");
+const fE2 = "day15/ex2.txt";
+const inputEx2 = fs.readFileSync(`./inputs/${fE2}`, "utf-8").trim().split("\n");
 
 const f = "day15/input.txt";
 const input = fs.readFileSync(`./inputs/${f}`, "utf-8").trim().split("\n");
 
+const Execute = (fn, parameters, msg = "Result :") => {
+  let start = performance.now();
+  let res = fn(...parameters);
+  let end = performance.now();
+  console.log(msg, res, "Time :", (end - start).toFixed(2), "ms");
+};
+
 // Part 1
-let start = performance.now();
 
 function mergeIntervals(intervals) {
   if (intervals.length <= 1) return intervals;
@@ -49,6 +52,10 @@ class Point {
     return this.x == p.x && this.y == p.y;
   }
 }
+
+const dstManhattan = (S, B) => {
+  return Math.abs(S[0] - B[0]) + Math.abs(S[1] - B[1]);
+};
 
 const findNbOccupied = (input, y0) => {
   let I = [];
@@ -91,7 +98,12 @@ const findNbOccupied = (input, y0) => {
   let res = 0;
   map.forEach((v, p) => {
     I.forEach((interval) => {
-      if (p.y == y0 && interval[0] <= p.x && p.x <= interval[1]) {
+      if (
+        p.y == y0 &&
+        interval[0] <= p.x &&
+        p.x <= interval[1] &&
+        map.get(p) == "B"
+      ) {
         res -= 1;
       }
     });
@@ -102,140 +114,118 @@ const findNbOccupied = (input, y0) => {
   return res;
 };
 
-part1 = findNbOccupied(input, 2000000);
-part1Ex = findNbOccupied(inputEx, 10);
-part1Ex2 = findNbOccupied(inputEx2, 3);
-
 // Part 2
-const fillLines = (Lines, S, y1, d) => {
-  for (let j = S.y - d; j <= S.y - 1; j++) {
-    let i = j - S.y + d;
-    if (0 <= j && j <= y1) {
-      if (S.x + i > y1) {
-        if (S.x - i > y1) {
-        } else if (0 <= S.x - i && S.x - i <= y1) {
-          Lines[j].push([S.x - i, y1]);
-        } else if (S.x - i < 0) {
-          Lines[j].push([0, y1]);
-        }
-      } else if (0 <= S.x + i && S.x + i <= y1) {
-        if (0 <= S.x - i && S.x - i <= y1) {
-          Lines[j].push([S.x - i, S.x + i]);
-        } else if (S.x - i < 0) {
-          Lines[j].push([0, S.x + i]);
-        }
-      }
-    }
-    if (0 <= 2 * S.y - j && 2 * S.y - j <= y1) {
-      if (S.x + i > y1) {
-        if (S.x - i > y1) {
-        } else if (0 <= S.x - i && S.x - i <= y1) {
-          Lines[2 * S.y - j].push([S.x - i, y1]);
-        } else if (S.x - i < 0) {
-          Lines[2 * S.y - j].push([0, y1]);
-        }
-      } else if (0 <= S.x + i && S.x + i <= y1) {
-        if (0 <= S.x - i && S.x - i <= y1) {
-          Lines[2 * S.y - j].push([S.x - i, S.x + i]);
-        } else if (S.x - i < 0) {
-          Lines[2 * S.y - j].push([0, S.x + i]);
-        }
-      }
-    }
-    if (0 <= S.y && S.y <= y1) {
-      if (S.x + d > y1) {
-        if (S.x - d > y1) {
-        } else if (0 <= S.x - d && S.x - d <= y1) {
-          Lines[S.y].push([S.x - d, y1]);
-        } else if (S.x - d < 0) {
-          Lines[S.y].push([0, y1]);
-        }
-      } else if (0 <= S.x + d && S.x + d <= y1) {
-        if (0 <= S.x - d && S.x - d <= y1) {
-          Lines[S.y].push([S.x - d, S.x + d]);
-        } else if (S.x - d < 0) {
-          Lines[S.y].push([0, S.x + d]);
-        }
-      }
-    }
-  }
-};
 
-const findSignal = (input, y1) => {
-  let set = new Set();
-  let Lines = [];
-  let res = [];
-  for (k = 0; k <= y1; k++) {
-    Lines.push([]);
-    res.push(0);
-  }
+const Sensors = (input) => {
+  let sensors = [];
   input.forEach((line) => {
     line = line.replaceAll("x=", "");
     line = line.replaceAll("y=", "");
     line = line.split(": closest beacon is at ");
     sensor = line[0].split("Sensor at ")[1].split(", ").map(Number);
     beacon = line[1].split(", ").map(Number);
-    addS = true;
-    addB = true;
-    let S = new Point(sensor[0], sensor[1]);
-    let B = new Point(beacon[0], beacon[1]);
-    for (let key of set.keys()) {
-      if (S.equals(key)) {
-        addS = false;
-      }
-      if (B.equals(key)) {
-        addB = false;
-      }
-    }
-    if (addS == true) {
-      set.add(S);
-    }
-    if (addB == true) {
-      set.add(B);
-    }
-    let d = Point.dst(S, B);
-    fillLines(Lines, S, y1, d);
+    d = dstManhattan(sensor, beacon);
+    sensors.push({ x: sensor[0], y: sensor[1], d: d });
   });
 
-  for (k = 0; k <= y1; k++) {
-    Lines[k] = mergeIntervals(Lines[k]);
-    Lines[k].forEach((arr) => {
-      res[k] += arr.at(-1) - arr.at(0) + 1;
-    });
-    if (res[k] == y1) {
-      let ySignal = k;
-      for (let r = 0; r < Lines[k].length - 1; r++) {
-        if (Lines[k][r][1] + 1 != Lines[k][r + 1][0]) {
-          xSignal = Lines[k][r][1] + 1;
+  return sensors;
+};
+
+const findSignal2 = (input, MAX) => {
+  let sensors = Sensors(input);
+  for (let S of sensors) {
+    let noBeaconsZone = [];
+    for (let i = 0; i <= S.d + 1; i++) {
+      noBeaconsZone.push(`${S.x - S.d - 1 + i} ${S.y - i}`);
+      noBeaconsZone.push(`${S.x + S.d + 1 - i} ${S.y - i}`);
+      noBeaconsZone.push(`${S.x - S.d - 1 + i} ${S.y + i}`);
+      noBeaconsZone.push(`${S.x + S.d + 1 - i} ${S.y + i}`);
+    }
+    for (let point of noBeaconsZone) {
+      point = point.split(" ").map(Number);
+      if (
+        point[0] >= 0 &&
+        point[0] <= MAX &&
+        point[1] >= 0 &&
+        point[1] <= MAX
+      ) {
+        let count = 0;
+        for (let S of sensors) {
+          let s = [S.x, S.y];
+          if (dstManhattan(s, point) > S.d) {
+            count++;
+          }
+        }
+        if (count == sensors.length) {
+          return point[0] * 4000000 + point[1];
         }
       }
-      if (Lines[k].at(-1)[1] != y1) {
-        xSignal = y1;
-      }
-      return xSignal * 4000000 + ySignal;
     }
   }
 };
 
-part2Ex2 = findSignal(inputEx2, 5);
-part2Ex = findSignal(inputEx, 20);
-//part2 = findSignal(input, 4000000);
+Execute(findNbOccupied, [inputEx, 10], "Part 1 ex :");
+Execute(findNbOccupied, [input, 2000000], "Part 1 :");
+Execute(findSignal, [inputEx, 20], "Part 2 ex :");
+Execute(findSignal2, [input, 4000000], "Part 2 :");
 
-let end = performance.now();
-console.log("Execution time :", (end - start).toFixed(2), "ms");
-
-console.log("Part 1 Ex 2 :", part1Ex2);
-console.log("Part 1 Ex :", part1Ex);
-console.log("Part 1 :", part1);
-
-console.log("Part 2 Ex 2 :", part2Ex2);
-console.log("Part 2 Ex :", part2Ex);
-//console.log("Part 2 :", part2);
-
-let start2 = performance.now();
-a = 0;
-for (k = 0; k <= 4000000; k++) {
-  a++;
-}
-let end2 = performance.now();
-console.log("Execution time :", (end2 - start2).toFixed(2), "ms");
+// const findSignal = (input, MAX) => {
+//   let sensors = Sensors(input);
+//   sensors = sensors.sort((s1, s2) => {
+//     if (s1.x - s2.x == 0) {
+//       return s1.y - s2.y;
+//     }
+//     return s1.x - s2.x;
+//   });
+//   let Lines = [];
+//   for (i = 0; i <= MAX; i++) {
+//     Lines.push({ intervals: [], occupation: 0 });
+//   }
+//   for (let S of sensors) {
+//     for (let i = Math.max(0, S.y - S.d); i <= Math.min(MAX, S.y + S.d); i++) {
+//       let L = S.d - Math.abs(i - S.y);
+//       newI = [Math.max(0, S.x - L), Math.min(MAX, S.x + L)];
+//       if (Lines[i].intervals.length == 0) {
+//         Lines[i].intervals.push(newI);
+//         Lines[i].occupation += newI[1] - newI[0] + 1;
+//       } else {
+//         precI = Lines[i].intervals.at(-1);
+//         let a0 = precI[0];
+//         let b0 = precI[1];
+//         let a1 = newI[0];
+//         let b1 = newI[1];
+//         if (a0 <= a1 && a1 <= b0 && b0 < b1) {
+//           Lines[i].intervals.at(-1)[1] = b1;
+//           Lines[i].occupation += b1 - b0;
+//         } else if (a1 < a0 && b0 < b1) {
+//           Lines[i].intervals.at(-1)[0] = a1;
+//           Lines[i].intervals.at(-1)[1] = b1;
+//           Lines[i].occupation += b1 - b0 + a0 - a1;
+//         } else if (a1 < a0 && a0 <= b1 && b1 <= b0) {
+//           Lines[i].intervals.at(-1)[0] = a1;
+//           Lines[i].occupation += a0 - a1;
+//         } else if (b0 < a1) {
+//           Lines[i].intervals.push(newI);
+//           Lines[i].occupation += b1 - a1 + 1;
+//         } else if (b1 < a0) {
+//           Lines[i].intervals.push(newI);
+//           Lines[i].occupation += b1 - a1 + 1;
+//         }
+//       }
+//     }
+//   }
+//   for (i = 0; i <= MAX; i++) {
+//     if (Lines[i].occupation == MAX) {
+//       ySignal = i;
+//       for (let r = 0; r < Lines[i].intervals.length - 1; r++) {
+//         if (Lines[i].intervals[r][1] + 1 != Lines[i].intervals[r + 1][0]) {
+//           xSignal = Lines[i].intervals[r][1] + 1;
+//         }
+//       }
+//       if (Lines[i].intervals.at(-1)[1] != MAX) {
+//         xSignal = MAX;
+//       }
+//       return xSignal * 4000000 + ySignal;
+//     }
+//   }
+// };
