@@ -287,3 +287,5 @@ console.log("Execution time :", (end - start).toFixed(2), "ms");
 
 console.log("Part 1 :", part1);
 console.log("Part 2 :", part2);
+
+M = new Map();
