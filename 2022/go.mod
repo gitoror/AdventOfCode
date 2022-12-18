@@ -1,3 +1,3 @@
-module testgo
+module day17go/day17.go
 
-go 1.20
+go 1.19
