@@ -33,29 +33,20 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x-1 < 0) && !ok {
 						pos.x--
 					}
-					_, ok1 := tower[Pos{x: pos.x, y: pos.y - 1}]
-					_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y - 1}]
-					_, ok3 := tower[Pos{x: pos.x + 2, y: pos.y - 1}]
-					_, ok4 := tower[Pos{x: pos.x + 3, y: pos.y - 1}]
-					if ok1 || ok2 || ok3 || ok4 {
-						stopped = true
-					} else {
-						pos.y--
-					}
 				case '>':
 					_, ok := tower[Pos{x: pos.x + 4, y: pos.y}]
 					if !(pos.x+3+1 > 6) && !ok {
 						pos.x++
 					}
-					_, ok1 := tower[Pos{x: pos.x, y: pos.y - 1}]
-					_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y - 1}]
-					_, ok3 := tower[Pos{x: pos.x + 2, y: pos.y - 1}]
-					_, ok4 := tower[Pos{x: pos.x + 3, y: pos.y - 1}]
-					if ok1 || ok2 || ok3 || ok4 {
-						stopped = true
-					} else {
-						pos.y--
-					}
+				}
+				_, ok1 := tower[Pos{x: pos.x, y: pos.y - 1}]
+				_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y - 1}]
+				_, ok3 := tower[Pos{x: pos.x + 2, y: pos.y - 1}]
+				_, ok4 := tower[Pos{x: pos.x + 3, y: pos.y - 1}]
+				if ok1 || ok2 || ok3 || ok4 {
+					stopped = true
+				} else {
+					pos.y--
 				}
 				pattI = (pattI + 1) % len(jetPattern)
 				jetDirection = jetPattern[pattI]
@@ -76,28 +67,20 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x-2 < 0) && !ok1 && !ok2 {
 						pos.x--
 					}
-					_, ok1 = tower[Pos{x: pos.x - 1, y: pos.y}]
-					_, ok2 = tower[Pos{x: pos.x + 1, y: pos.y}]
-					_, ok3 := tower[Pos{x: pos.x, y: pos.y - 1}]
-					if ok1 || ok2 || ok3 {
-						stopped = true
-					} else {
-						pos.y--
-					}
 				case '>':
 					_, ok1 := tower[Pos{x: pos.x + 2, y: pos.y + 1}]
 					_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y}]
 					if !(pos.x+2 > 6) && !ok1 && !ok2 {
 						pos.x++
 					}
-					_, ok1 = tower[Pos{x: pos.x - 1, y: pos.y}]
-					_, ok2 = tower[Pos{x: pos.x + 1, y: pos.y}]
-					_, ok3 := tower[Pos{x: pos.x, y: pos.y - 1}]
-					if ok1 || ok2 || ok3 {
-						stopped = true
-					} else {
-						pos.y--
-					}
+				}
+				_, ok1 := tower[Pos{x: pos.x - 1, y: pos.y}]
+				_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y}]
+				_, ok3 := tower[Pos{x: pos.x, y: pos.y - 1}]
+				if ok1 || ok2 || ok3 {
+					stopped = true
+				} else {
+					pos.y--
 				}
 				pattI = (pattI + 1) % len(jetPattern)
 				jetDirection = jetPattern[pattI]
@@ -118,14 +101,6 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x-2 < 0) && !ok {
 						pos.x--
 					}
-					_, ok1 := tower[Pos{x: pos.x - 1, y: pos.y - 1}]
-					_, ok2 := tower[Pos{x: pos.x, y: pos.y - 1}]
-					_, ok3 := tower[Pos{x: pos.x + 1, y: pos.y - 1}]
-					if ok1 || ok2 || ok3 {
-						stopped = true
-					} else {
-						pos.y--
-					}
 				case '>':
 					_, ok1 := tower[Pos{x: pos.x + 2, y: pos.y}]
 					_, ok2 := tower[Pos{x: pos.x + 2, y: pos.y + 1}]
@@ -133,14 +108,14 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x+2 > 6) && !ok1 && !ok2 && !ok3 {
 						pos.x++
 					}
-					_, ok1 = tower[Pos{x: pos.x - 1, y: pos.y - 1}]
-					_, ok2 = tower[Pos{x: pos.x, y: pos.y - 1}]
-					_, ok3 = tower[Pos{x: pos.x + 1, y: pos.y - 1}]
-					if ok1 || ok2 || ok3 {
-						stopped = true
-					} else {
-						pos.y--
-					}
+				}
+				_, ok1 := tower[Pos{x: pos.x - 1, y: pos.y - 1}]
+				_, ok2 := tower[Pos{x: pos.x, y: pos.y - 1}]
+				_, ok3 := tower[Pos{x: pos.x + 1, y: pos.y - 1}]
+				if ok1 || ok2 || ok3 {
+					stopped = true
+				} else {
+					pos.y--
 				}
 				pattI = (pattI + 1) % len(jetPattern)
 				jetDirection = jetPattern[pattI]
@@ -164,11 +139,6 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x-1 < 0) && !ok1 && !ok2 && !ok3 && !ok4 {
 						pos.x--
 					}
-					if _, ok := tower[Pos{x: pos.x, y: pos.y - 1}]; ok {
-						stopped = true
-					} else {
-						pos.y--
-					}
 				case '>':
 					_, ok1 := tower[Pos{x: pos.x + 1, y: pos.y}]
 					_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y + 1}]
@@ -177,11 +147,11 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x+1 > 6) && !ok1 && !ok2 && !ok3 && !ok4 {
 						pos.x++
 					}
-					if _, ok := tower[Pos{x: pos.x, y: pos.y - 1}]; ok {
-						stopped = true
-					} else {
-						pos.y--
-					}
+				}
+				if _, ok := tower[Pos{x: pos.x, y: pos.y - 1}]; ok {
+					stopped = true
+				} else {
+					pos.y--
 				}
 				pattI = (pattI + 1) % len(jetPattern)
 				jetDirection = jetPattern[pattI]
@@ -202,26 +172,19 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 					if !(pos.x-1 < 0) && !ok1 && !ok2 {
 						pos.x--
 					}
-					_, ok1 = tower[Pos{x: pos.x, y: pos.y - 1}]
-					_, ok2 = tower[Pos{x: pos.x + 1, y: pos.y - 1}]
-					if ok1 || ok2 {
-						stopped = true
-					} else {
-						pos.y--
-					}
 				case '>':
 					_, ok1 := tower[Pos{x: pos.x + 2, y: pos.y}]
 					_, ok2 := tower[Pos{x: pos.x + 2, y: pos.y + 1}]
 					if !(pos.x+2 > 6) && !ok1 && !ok2 {
 						pos.x++
 					}
-					_, ok1 = tower[Pos{x: pos.x, y: pos.y - 1}]
-					_, ok2 = tower[Pos{x: pos.x + 1, y: pos.y - 1}]
-					if ok1 || ok2 {
-						stopped = true
-					} else {
-						pos.y--
-					}
+				}
+				_, ok1 := tower[Pos{x: pos.x, y: pos.y - 1}]
+				_, ok2 := tower[Pos{x: pos.x + 1, y: pos.y - 1}]
+				if ok1 || ok2 {
+					stopped = true
+				} else {
+					pos.y--
 				}
 				pattI = (pattI + 1) % len(jetPattern)
 				jetDirection = jetPattern[pattI]
