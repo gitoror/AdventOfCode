@@ -1,3 +1,3 @@
-module day17go/day17.go
+module 2022
 
 go 1.19
