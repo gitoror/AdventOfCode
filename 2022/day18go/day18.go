@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Pos struct{ x, y, z int }
@@ -40,7 +42,67 @@ func area(input []string) int {
 	return area
 }
 
-func area2(input []string) int {
+func extremBounds(mapp map[Pos]uint8) (int, int, int, int, int, int) {
+	minX := 50
+	maxX := 0
+	minY := 50
+	maxY := 0
+	minZ := 50
+	maxZ := 0
+	for p := range mapp {
+		if p.x > maxX {
+			maxX = p.x
+		}
+		if p.x < minX {
+			minX = p.x
+		}
+		if p.y > maxY {
+			maxY = p.y
+		}
+		if p.y < minY {
+			minY = p.y
+		}
+		if p.z > maxZ {
+			maxZ = p.z
+		}
+		if p.z < minZ {
+			minZ = p.z
+		}
+	} // -1 and +1 to make sure the lava is not touching the edges so we can go around it
+	return minX - 1, maxX + 1, minY - 1, maxY + 1, minZ - 1, maxZ + 1
+}
+
+func coutourCubes(mapp map[Pos]uint8) map[Pos]uint8 {
+	minX, maxX, minY, maxY, minZ, maxZ := extremBounds(mapp)
+	start := Pos{x: minX, y: minY, z: minZ}
+	contour := map[Pos]uint8{}
+	explored := map[Pos]uint8{}
+	toExplore := []Pos{start}
+	explored[start] = 0
+	for len(toExplore) > 0 {
+		exploredPos := toExplore[len(toExplore)-1]
+		toExplore = toExplore[:len(toExplore)-1]
+		for _, p := range exploredPos.neighbors() {
+			if _, ok := explored[p]; ok {
+				continue
+			}
+			if p.x < minX || p.x > maxX || p.y < minY || p.y > maxY || p.z < minZ || p.z > maxZ {
+				continue
+			}
+			if _, ok := mapp[p]; ok {
+				if _, ok := contour[exploredPos]; !ok {
+					contour[exploredPos] = 0
+				}
+				continue
+			}
+			toExplore = append(toExplore, p)
+		}
+		explored[exploredPos] = 0
+	}
+	return contour
+}
+
+func areaContour(input []string) int {
 	mapp := make(map[Pos]uint8)
 	for _, line := range input {
 		coord := strings.Split(line, ",")
@@ -49,83 +111,18 @@ func area2(input []string) int {
 		z, _ := strconv.Atoi(coord[2])
 		mapp[Pos{x, y, z}] = 0
 	}
+	contour := coutourCubes(mapp)
+	//fmt.Println(contour)
+	//fmt.Println("len", len(contour))
 	area := 0
-	for p := range mapp {
+	for p := range contour {
 		for _, neighbor := range p.neighbors() {
 			if _, ok := mapp[neighbor]; ok {
-				area -= 1
-			}
-		}
-		area += 6
-	}
-	bb := airBubbles(mapp)
-	var bubbleArea int = 0
-	for p := range bb {
-		for _, neighbor := range p.neighbors() {
-			if _, ok := mapp[neighbor]; ok {
-				bubbleArea += 1
+				area++
 			}
 		}
 	}
-	return area - bubbleArea
-}
-
-func airBubbles(mapp map[Pos]uint8) map[Pos]uint8 {
-	bubbles := map[Pos]uint8{}
-	max := 50
-	// Find bubble points
-	for p := range mapp {
-		for _, n := range p.neighbors() {
-			if _, ok := mapp[n]; ok {
-				continue
-			}
-			blockedXU := false
-			blockedXD := false
-			blockedYU := false
-			blockedYD := false
-			blockedZU := false
-			blockedZD := false
-			exploreXU := Pos{x: n.x + 1, y: n.y, z: n.z}
-			exploreXD := Pos{x: n.x - 1, y: n.y, z: n.z}
-			exploreYU := Pos{x: n.x, y: n.y + 1, z: n.z}
-			exploreYD := Pos{x: n.x, y: n.y - 1, z: n.z}
-			exploreZU := Pos{x: n.x, y: n.y, z: n.z + 1}
-			exploreZD := Pos{x: n.x, y: n.y, z: n.z - 1}
-			for step := 0; step <= max; step++ {
-				if _, ok := mapp[exploreXU]; ok {
-					blockedXU = true
-				}
-				exploreXU.x++
-				if _, ok := mapp[exploreXD]; ok {
-					blockedXD = true
-				}
-				exploreXD.x--
-				if _, ok := mapp[exploreYU]; ok {
-					blockedYU = true
-				}
-				exploreYU.y++
-				if _, ok := mapp[exploreYD]; ok {
-					blockedYD = true
-				}
-				exploreYD.y--
-				if _, ok := mapp[exploreZU]; ok {
-					blockedZU = true
-				}
-				exploreZU.z++
-				if _, ok := mapp[exploreZD]; ok {
-					blockedZD = true
-				}
-				exploreZD.z--
-				if blockedXD && blockedXU && blockedYD && blockedYU && blockedZD && blockedZU {
-					//fmt.Println("bubble", n)
-					bubbles[n] = 0
-				} else {
-					//fmt.Println("not bubble", n, blockedXD, blockedXU, blockedYD, blockedYU, blockedZD, blockedZU)
-				}
-			}
-		}
-	}
-	return bubbles
+	return area
 }
 
 func main() {
@@ -134,6 +131,12 @@ func main() {
 		panic(err)
 	}
 	input := strings.Split(string(file), "\n")
-	println(area(input))
-	println(area2(input))
+	// Part 1
+	start := time.Now()
+	part1 := area(input)
+	fmt.Println("Part 1 :", part1, "- Time :", time.Since(start))
+	// Part 2
+	start = time.Now()
+	part2 := areaContour(input)
+	fmt.Println("Part 2 :", part2, "- Time :", time.Since(start))
 }
