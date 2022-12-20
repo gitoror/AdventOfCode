@@ -59,3 +59,23 @@ I used a matrix but it would have been more efficient to use maps.
 ## Day 15
 
 Very hard Part 2 because of time execution. I had sevaral ideas to reduce the complexity but it is still over 1 sec ... I think the order of the sensors in the input is important because when I order my sensors by x rising the time is exceeding 1 min ! I have 2 algos for part 2, The one that is commented have a time of 15 sec and the presented one 2 sec. In the commented one I stayed one the same idea as part 1 with intervals. On the other version, which is more efficient, I focus on the possible zone of 1 box width around sensors where a beacon can be. And because of the unicity of the possible undetected beacon, the answer is the point of these zones that can't be detected by any sensor.
+
+## Day 16
+
+Hard problem, didn't do it
+
+## Day 17
+
+Goal : Mesure the size of a tower made of rocks after 2022 rocks have felt
+
+Part 2 : time excution pb, have to find cycles but don't understand how this can work bcs we cannot predict anything ...?
+
+## Day 18
+
+Goal : Calculate the area of a lava droplet
+
+Part 1 okay, but in part 2 we don't want to include the area due to air bubbles in the droplet. The trick is to build a box that entirely contains the droplet, start from a point in that box and draw the real contour of the droplet.
+
+## Day 19
+
+No up to date at this point... It's holidays :) (lol but it's only work until now)
