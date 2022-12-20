@@ -74,7 +74,7 @@ Part 2 : time excution pb, have to find cycles but don't understand how this can
 
 Goal : Calculate the area of a lava droplet
 
-Part 1 okay, but in part 2 we don't want to include the area due to air bubbles in the droplet. The trick is to build a box that entirely contains the droplet, start from a point in that box and draw the real contour of the droplet.
+Part 1 okay (even if my solution is a bit messy and base on copy paste which is not the point of programming), but in part 2 we don't want to include the area due to air bubbles in the droplet. The trick is to build a box that entirely contains the droplet, start from a point in that box and draw the real contour of the droplet.
 
 ## Day 19
 
