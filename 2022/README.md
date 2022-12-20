@@ -68,13 +68,15 @@ Hard problem, didn't do it
 
 Goal : Mesure the size of a tower made of rocks after 2022 rocks have felt
 
+Part 1 : Easy, even if my solution is a bit messy and base on copy paste which is not the point of programming... I know, I know
+
 Part 2 : time excution pb, have to find cycles but don't understand how this can work bcs we cannot predict anything ...?
 
 ## Day 18
 
 Goal : Calculate the area of a lava droplet
 
-Part 1 okay (even if my solution is a bit messy and base on copy paste which is not the point of programming), but in part 2 we don't want to include the area due to air bubbles in the droplet. The trick is to build a box that entirely contains the droplet, start from a point in that box and draw the real contour of the droplet.
+Part 1 okay , but in part 2 we don't want to include the area due to air bubbles in the droplet. The trick is to build a box that entirely contains the droplet, start from a point in that box and draw the real contour of the droplet.
 
 ## Day 19
 
