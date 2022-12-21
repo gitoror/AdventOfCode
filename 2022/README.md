@@ -81,3 +81,11 @@ Part 1 okay , but in part 2 we don't want to include the area due to air bubbles
 ## Day 19
 
 No up to date at this point... It's holidays :) (lol but it's only work until now)
+
+## Day 20
+
+Goal : find a code by mixing a circular list
+
+Part 1 : struggle with indexes but not too difficult
+
+Part 1 : immadiately from part 1
