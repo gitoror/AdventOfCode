@@ -3,11 +3,12 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"time"
 )
 
 type Pos struct{ x, y int }
 
-func buildTower(jetPattern string) (int, map[Pos]uint8) {
+func buildTower(jetPattern string, nbRocksTot int) (int, map[Pos]uint8) {
 	tower := map[Pos]uint8{
 		{x: 0, y: -1}: 1,
 		{x: 1, y: -1}: 1,
@@ -21,7 +22,7 @@ func buildTower(jetPattern string) (int, map[Pos]uint8) {
 	nbRocks := 0
 	pattI := 0
 	jetDirection := jetPattern[pattI]
-	for nbRocks < 2022 {
+	for nbRocks < nbRocksTot {
 		switch rock {
 		case 0:
 			pos := Pos{x: 2, y: towerLen + 3}
@@ -230,10 +231,7 @@ func main() {
 		panic(err)
 	}
 	input := string(file)
-	//input := ">>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>"
-	fmt.Println(len(input))
-
-	H, _ := buildTower(input)
-
-	fmt.Println(H)
+	start := time.Now()
+	H, _ := buildTower(input, 100000)
+	fmt.Println("Part 1 :", H, "- Time :", time.Since(start))
 }
