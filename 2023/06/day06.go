@@ -39,6 +39,9 @@ func part2(input string) int {
 	return n_beatable
 }
 
+// Ou trouver le nombre d'entiers entre les solutions
+// de l'équation "j*time-j^2 > dst" (2nd degré)
+
 func main() {
 	file := utils.ReadFile("../inputs/06/input.txt")
 	input := string(file)
