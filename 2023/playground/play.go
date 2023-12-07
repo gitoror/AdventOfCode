@@ -1,8 +1,13 @@
 package main
 
-import "fmt"
+import (
+	"2023/utils"
+	"fmt"
+)
 
 func main() {
-	labels := map[rune]int{'J': 3}
-	fmt.Println(labels['J'])
+	fmt.Println(utils.Intersect([]int{1, 5}, []int{6, 7}))
+	a := []int{}
+	l := len(a)
+	fmt.Println(l)
 }

@@ -56,85 +56,75 @@ func part1(input string) int {
 	return min
 }
 
-func seeds_with_ranges1(seeds []int) []int {
-	seeds_with_ranges := []int{}
-	for i := 0; i < len(seeds); i += 2 {
-		seed := seeds[i]
-		seed_range := seeds[i+1]
-		for k := 0; k < seed_range; k++ {
-			seeds_with_ranges = append(seeds_with_ranges, seed+k)
-		}
-	}
-	return seeds_with_ranges
-} // Trop long, faire intersection des intervalles de seed
-
-func merge_ranges(ranges [][]int) [][]int {
-	new_ranges := [][]int{}
-	// Merge
-	for i := 0; i < len(ranges); i++ {
-		r1 := ranges[i]
-		merged := false // merged at least once
-		for j := i + 1; j < len(ranges); j++ {
-			r2 := ranges[j]
-			if r1[1] < r2[0] || r2[1] < r1[0] {
-				break
-			}
-			if r1[0] <= r2[0] && r2[1] <= r1[1] {
-				merged = true
-				new_ranges = append(new_ranges, r1)
-			}
-			if r2[0] <= r1[0] && r1[1] <= r2[1] {
-				merged = true
-				new_ranges = append(new_ranges, r2)
-			}
-			if r1[0] < r2[0] && r1[1] <= r2[1] {
-				merged = true
-				new_ranges = append(new_ranges, []int{r1[0], r2[1]})
-			}
-			if r2[0] <= r1[0] && r2[1] < r1[1] {
-				merged = true
-				new_ranges = append(new_ranges, []int{r2[0], r1[1]})
-			}
-		}
-		if !merged {
-			new_ranges = append(new_ranges, []int{r1[0], r1[1]})
-		}
-	}
-	return new_ranges
-} // Still too long
-
 func seeds_with_ranges(seeds []int) [][]int {
 	// Store [min max]
 	seeds_with_ranges := [][]int{}
 	for i := 0; i < len(seeds); i += 2 {
 		seeds_with_ranges = append(seeds_with_ranges, []int{seeds[i], seeds[i] + seeds[i+1] - 1})
 	}
-	seeds_with_ranges = merge_ranges(seeds_with_ranges)
 	return seeds_with_ranges
+}
+
+func substract(a, b []int) [][]int { // a - b
+	// May return 0, 1 or 2 intervals (2 when b includes a)
+	r := [][]int{}
+	before := []int{a[0], utils.Min(b[0]-1, a[1])}
+	after := []int{utils.Max(b[1]+1, a[0]), a[1]}
+	if before[1] > before[0] { // If non empty
+		r = append(r, before)
+	}
+	if after[1] > after[0] {
+		r = append(r, after)
+	}
+	return r
+}
+
+func calc_next_intervals(A [][]int, mapping [][]int) [][]int {
+	r := [][]int{} // Returned intervals
+	for _, m := range mapping {
+		dest, src, size := m[0], m[1], m[2]
+		end := src + size - 1
+		shift := dest - src
+		deviator := []int{src, end}
+		for_later := [][]int{} // Interval that could be deviated by the next m of mapping
+		for _, a := range A {
+			// 1. Do intersection (deviated parts)
+			b := utils.Intersect(a, deviator)
+			// Deviate interval
+			if len(b) > 0 {
+				b = []int{b[0] + shift, b[1] + shift} // shift range
+				r = append(r, b)                      // Directly added to return because wont be deviated anymore
+			}
+			// 2. Look at non deviated parts
+			non_deviated_intervals := substract(a, deviator) // a - deviator
+			// Add them to the set of intervals that may be deviated by another m of mapping
+			for _, non_deviated_interval := range non_deviated_intervals {
+				if len(non_deviated_interval) > 0 {
+					for_later = append(for_later, non_deviated_interval)
+				}
+			}
+		}
+		A = for_later
+	}
+	return append(r, A...)
 }
 
 func part2(input string) int {
 	// Parse input
 	blocks := strings.Split(input, "\n\n")
-	seeds := utils.SliceInt(
-		strings.Split(
-			strings.Split(blocks[0], ": ")[1], " "))
 	mappings := parse_mappings(blocks)
-	seeds_ranges := seeds_with_ranges(seeds)
-	print("ok")
-
-	// Compute leafs
+	seeds_infos := utils.SliceInt(strings.Split(strings.Split(blocks[0], ": ")[1], " "))
+	// Answer intervals from where to find the min of starts
+	A := seeds_with_ranges(seeds_infos)
+	for _, mapping := range mappings {
+		A = calc_next_intervals(A, mapping)
+	}
+	// Min algo
 	min := math.MaxInt
-	for _, r := range seeds_ranges {
-		for seed := r[0]; seed <= r[1]; seed++ {
-			leaf := calc_leaf(seed, mappings)
-			if leaf < min {
-				min = leaf
-			}
-		}
+	for _, a := range A {
+		min = utils.Min(min, a[0])
 	}
 	return min
-
 }
 
 func main() {
@@ -148,4 +138,5 @@ func main() {
 	start = time.Now()
 	part2 := part2(input)
 	fmt.Println("Part 2 :", part2, "- Time :", time.Since(start))
+
 }
