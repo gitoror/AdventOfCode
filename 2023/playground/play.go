@@ -1,11 +1,15 @@
 package main
 
 import (
-	"2023/utils"
 	"fmt"
 )
 
-func main() {
+func alo(a []int) {
+	a = append(a, 99)
+}
 
-	fmt.Println(utils.GCD(12, 3*12))
+func main() {
+	a := []int{}
+	alo(a)
+	fmt.Println(a)
 }
