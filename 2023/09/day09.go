@@ -25,12 +25,12 @@ func diff(t []int) []int {
 }
 
 func predict(h []int) int {
-	last_values := []int{h[len(h)-1]}
+	p := h[len(h)-1]
 	for !all_zeros(h) {
 		h = diff(h)
-		last_values = append(last_values, h[len(h)-1])
+		p += h[len(h)-1]
 	}
-	return utils.SliceSum(last_values)
+	return p
 }
 
 func part1(input []string) int {
@@ -42,20 +42,17 @@ func part1(input []string) int {
 }
 
 func predict_backwards(h []int) int {
-	first_values := []int{h[0]}
+	p, k := h[0], 1
 	for !all_zeros(h) {
 		h = diff(h)
-		first_values = append(first_values, h[0])
-	}
-	a := first_values[0]
-	for k, v := range first_values[1:] {
-		if k%2 == 0 {
-			a -= v
+		if k%2 == 1 {
+			p -= h[0]
 		} else {
-			a += v
+			p += h[0]
 		}
+		k++
 	}
-	return a
+	return p
 }
 
 func part2(input []string) int {
@@ -69,12 +66,8 @@ func part2(input []string) int {
 func main() {
 	file := utils.ReadFile("../inputs/09/input.txt")
 	input := strings.Split(string(file), "\n")
-	// Part 1
-	start := time.Now()
-	part1 := part1(input)
+	start, part1 := time.Now(), part1(input)
 	fmt.Println("Part 1 :", part1, "- Time :", time.Since(start))
-	// Part 2
-	start = time.Now()
-	part2 := part2(input)
+	start, part2 := time.Now(), part2(input)
 	fmt.Println("Part 2 :", part2, "- Time :", time.Since(start))
 }
