@@ -118,7 +118,6 @@ func write_maze(maze map[Pos]string, loop map[Pos]string, input []string) {
 }
 
 func add_oz(pos Pos, s string, t *[]Pos, loop map[Pos]string, maze map[Pos]string, len_X, len_Y int) {
-	fmt.Println(pos, maze[pos], s, in_map(pos, len_X, len_Y))
 	if _, ok := loop[pos]; !ok && !strings.Contains("10", maze[pos]) && in_map(pos, len_X, len_Y) {
 		*t = append(*t, pos)
 		maze[pos] = s
