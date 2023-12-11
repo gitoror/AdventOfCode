@@ -243,5 +243,5 @@ func main() {
 	fmt.Println("Part 1 :", part1, "- Time :", time.Since(start))
 	start, part2 := time.Now(), part2(input)
 	fmt.Println("Part 2 :", part2, "- Time :", time.Since(start))
-	// between  [405 5906]    len_X*len_Y-9
+	// 411
 }
