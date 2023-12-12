@@ -33,7 +33,7 @@ def arrangements(springs, sizes):
                 if not ("#" in springs[:start] + springs[end:]):
                     sum += 1
             else:
-                if not ("#" in springs[: max(0, start - 1)]):
+                if not ("#" in springs[: start]):
                     sum += arrangements(springs[end + 1 :], sizes[1:])
     memo_map[(springs, tuple(sizes))] = sum  # memoization part 2
     return sum
