@@ -1,11 +1,9 @@
 package main
 
-import (
-	"2023/utils"
-)
+import "fmt"
 
-func alo(a []int) {
-	a = append(a, 99)
+func alo(a *[]int) {
+	*a = append(*a, 99)
 }
 
 type Pos struct {
@@ -14,6 +12,6 @@ type Pos struct {
 }
 
 func main() {
-	s := "edvjchzeichzovf"
-	utils.WriteFile("lol.txt", []byte(s))
+	a := "\\"
+	fmt.Println(a)
 }
