@@ -14,7 +14,5 @@ type Pos struct {
 }
 
 func main() {
-	a := []string{"123"}
-	x := int(a[0][0] - '0')
-	fmt.Println(x)
+	a := 
 }
