@@ -31,7 +31,7 @@ def solve(part2):
         for next_dir, (dx,dy) in enumerate(D): # next possible moves
             x,y = pos
             next_x, next_y = x+dx, y+dy
-            if ((next_x,next_y),next_dir,count) in explored:
+            if ((next_x,next_y),next_dir,count) in explored or ((next_x,next_y),next_dir,count-1) in explored or ((next_x,next_y),next_dir,count-2) in explored or ((next_x,next_y),next_dir,count-3) in explored or ((next_x,next_y),next_dir,count-4) in explored:
                 continue
             # k: 0: right, 1: down, 2: left, 3: up
             if not part2 and (dir_, count) == (next_dir,3) or next_dir == (dir_+2)%4:
