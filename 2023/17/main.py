@@ -65,7 +65,7 @@ def part2(grid):
         for next_dir, (dx,dy) in enumerate(D): # next possible moves
             # k: 0: right, 1: down, 2: left, 3: up
             if (prev_dir != next_dir and 0 < count < 4) or (prev_dir, count) == (next_dir,10) or next_dir == (prev_dir+2)%4:
-                # We need to go at least 4 times in the same direction before turning
+                # We need to go at least 4 times in the same direction before turning, count>0 bcs count at src is 0 and we can turn at the first move
                 # We can't go more than 10 times in the same direction
                 # If we come from the opposite direction, we can't go back
                 continue
