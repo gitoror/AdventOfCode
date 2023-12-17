@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func alo(a *[]int) {
 	*a = append(*a, 99)
@@ -12,6 +14,7 @@ type Pos struct {
 }
 
 func main() {
-	a := "\\"
-	fmt.Println(a)
+	a := []string{"123"}
+	x := int(a[0][0] - '0')
+	fmt.Println(x)
 }
