@@ -445,20 +445,6 @@ func isFlatLvl(y int, tower map[Pos]uint8) bool {
 	return flat
 }
 
-func findSameSituation(tower map[Pos]uint8,  maxLevel int, h int) bool {
-	for y := h; y < maxLevel-h; y++ {
-		flat := true
-		for x := 0; x < 7; x++ {
-			if _, ok := tower[Pos{x: x, y: y}]; !ok {
-				flat = false
-			}
-		}
-		if flat == true {
-			flatLvls = append(flatLvls, y)
-		}
-	}
-}
-
 func findFlat(tower map[Pos]uint8, maxLevel int) []int {
 	flatLvls := []int{}
 	for y := -1; y < maxLevel; y++ {
