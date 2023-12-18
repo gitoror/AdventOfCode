@@ -1,7 +1,8 @@
 import heapq
+import time 
 
 grid = {}
-with open("inputs/17/in.txt", "r") as f:
+with open("inputs/17/sim.txt", "r") as f:
     data = f.read().split("\n")
     lenX,lenY = len(data[0]), len(data)
     for y,line in enumerate(data):
@@ -31,8 +32,6 @@ def solve(part2):
         for next_dir, (dx,dy) in enumerate(D): # next possible moves
             x,y = pos
             next_x, next_y = x+dx, y+dy
-            if ((next_x,next_y),next_dir,count) in explored or ((next_x,next_y),next_dir,count-1) in explored:
-                continue
             # k: 0: right, 1: down, 2: left, 3: up
             if not part2 and (dir_, count) == (next_dir,3) or next_dir == (dir_+2)%4:
                 # We can't go more than 3 times in the same direction
@@ -53,5 +52,7 @@ def solve(part2):
     return ans
 
 
-print(solve(False)) # Part 1
-print(solve(True)) # Part 2
+start = time.time()
+print("Part 1", solve(False),time.time()-start) # Part 1
+start = time.time()
+print("Part 2",solve(True), time.time()-start) # Part 2
