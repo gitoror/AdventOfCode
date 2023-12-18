@@ -1,5 +1,7 @@
 package utils
 
+import "strconv"
+
 // Max returns the larger of x or y.
 func Max(x, y int) int {
 	if x < y {
@@ -35,4 +37,19 @@ func LCM(a, b int, integers ...int) int {
 	}
 
 	return result
+}
+
+func ToInt(s string) int {
+	i, err := strconv.Atoi(s)
+	if err != nil {
+		panic(err)
+	}
+	return i
+}
+
+func AbsInt(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
 }
