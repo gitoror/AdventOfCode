@@ -3,3 +3,4 @@ package-lock.json
 .DS_Store
 node_modules
 
+/2023/inputs/19/*.py
