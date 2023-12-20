@@ -51,8 +51,6 @@ func createModules(input []string) map[string]*Module {
 	// Populate OutModules and Memory
 	for id, outModules := range temp {
 		for _, outModule := range outModules {
-			// fmt.Println(id, outModule)
-
 			if _, ok := modules[outModule]; ok {
 				if modules[outModule].Category == CONJUNCTION {
 					modules[outModule].Memory[modules[id]] = 0
@@ -73,7 +71,6 @@ func (instructions *Instructions) add(instruction Instruction) {
 func (instructions *Instructions) process() (int, int) {
 	instruction := (*instructions)[0]
 	lowPulses, highPulses := 0, 0
-	// fmt.Println(instruction.From.Id, instruction.Pulse, instruction.To.Id, instruction.To.Category)
 	if instruction.Pulse == 0 {
 		lowPulses = 1
 	} else {
@@ -87,7 +84,6 @@ func (instructions *Instructions) process() (int, int) {
 	case FLIPFLOP:
 		if instruction.Pulse == 0 {
 			instruction.To.On = (instruction.To.On + 1) % 2
-			// fmt.Println("NEW STATE", instruction.To.On)
 			for _, outModule := range instruction.To.OutModules {
 				instructions.add(Instruction{instruction.To, instruction.To.On, outModule})
 			}
@@ -109,22 +105,11 @@ func (instructions *Instructions) process() (int, int) {
 		}
 	}
 	*instructions = (*instructions)[1:]
-	// fmt.Println("Instructions:")
-	// for _, instruction := range *instructions {
-	// 	fmt.Println(instruction.From.Id, instruction.Pulse, instruction.To.Id, instruction.To.Category)
-	// }
 	return lowPulses, highPulses
 }
 
 func part1(input []string) int {
 	modules := createModules(input)
-	// for _, module := range modules {
-	// 	fmt.Println(module.Id, module.Category)
-	// 	fmt.Println("OutModules:", len(module.OutModules))
-	// 	for _, outModule := range module.OutModules {
-	// 		fmt.Println(outModule.Id)
-	// 	}
-	// }
 	lowPulses, highPulses := 0, 0
 	nOrders := 0
 	for nOrders < 1000 {
@@ -133,9 +118,6 @@ func part1(input []string) int {
 			dLow, dHigh := instructions.process()
 			lowPulses += dLow
 			highPulses += dHigh
-			// fmt.Println("lowPulses:", lowPulses, "highPulses:", highPulses)
-
-			// fmt.Println()
 		}
 		nOrders++
 	}
@@ -145,14 +127,6 @@ func part1(input []string) int {
 
 func part2(input []string) int {
 	modules := createModules(input)
-	// for _, module := range modules {
-	// 	fmt.Println(module.Id, module.Category)
-	// 	fmt.Println("OutModules:", len(module.OutModules))
-	// 	for _, outModule := range module.OutModules {
-	// 		fmt.Println(outModule.Id)
-	// 	}
-	// }
-
 	lowPulses, highPulses := 0, 0
 	nOrders := 1
 	rxOn := false
@@ -172,8 +146,6 @@ func part2(input []string) int {
 			dLow, dHigh := instructions.process()
 			lowPulses += dLow
 			highPulses += dHigh
-			// fmt.Println("lowPulses:", lowPulses, "highPulses:", highPulses)
-			// fmt.Println()
 		}
 		nOrders++
 	}
